@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useViewport } from "./hooks/use-screen-viewport";
+import { useViewport } from "react-use-viewport";
 import "./App.css";
 
 function App() {

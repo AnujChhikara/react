@@ -1,0 +1,268 @@
+# react-use-viewport
+
+A powerful and lightweight React hook for tracking viewport dimensions, breakpoints, orientation, and keyboard visibility. Perfect for building responsive React applications with TypeScript support.
+
+## Demo
+
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/ad9765b8-9b5f-42cf-9221-4309ed191670" alt="Demo" width="600" />
+</div>
+
+## Features
+
+- 📱 **Viewport Dimensions** - Track width and height in real-time
+- 🎯 **Breakpoint Detection** - Automatic mobile, tablet, and desktop detection
+- ⌨️ **Keyboard Visibility** - Detect when virtual keyboard is visible on mobile devices
+- 🔄 **Orientation Tracking** - Monitor portrait/landscape changes
+- ⚡ **Performance Optimized** - Built-in debouncing support
+- 🎨 **Customizable Breakpoints** - Define your own breakpoint thresholds
+- 📦 **TypeScript Support** - Full type definitions included
+- 🪶 **Lightweight** - Zero dependencies (except React)
+
+## Installation
+
+```bash
+npm install react-use-viewport
+# or
+pnpm add react-use-viewport
+# or
+yarn add react-use-viewport
+```
+
+## Quick Start
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function App() {
+  const viewport = useViewport();
+
+  return (
+    <div>
+      <p>Width: {viewport.width}px</p>
+      <p>Height: {viewport.height}px</p>
+      <p>Breakpoint: {viewport.breakpoint}</p>
+      <p>Orientation: {viewport.orientation}</p>
+    </div>
+  );
+}
+```
+
+## API
+
+### `useViewport(options?)`
+
+Returns a `ViewportInfo` object with the following properties:
+
+| Property            | Type                        | Description                                                      |
+| ------------------- | --------------------------- | ---------------------------------------------------------------- |
+| `width`             | `number`                    | Current viewport width in pixels                                 |
+| `height`            | `number`                    | Current viewport height in pixels                                |
+| `isKeyboardVisible` | `boolean`                   | Whether the virtual keyboard is visible (mobile only)            |
+| `keyboardHeight`    | `number`                    | Height of the virtual keyboard in pixels                         |
+| `orientation`       | `"portrait" \| "landscape"` | Current device orientation                                       |
+| `breakpoint`        | `string`                    | Current breakpoint name (`"mobile"`, `"tablet"`, or `"desktop"`) |
+| `isMobile`          | `boolean`                   | `true` if current breakpoint is mobile                           |
+| `isTablet`          | `boolean`                   | `true` if current breakpoint is tablet                           |
+| `isDesktop`         | `boolean`                   | `true` if current breakpoint is desktop                          |
+| `scale`             | `number`                    | Visual viewport scale factor                                     |
+
+### Options
+
+| Option              | Type                  | Default                         | Description                                               |
+| ------------------- | --------------------- | ------------------------------- | --------------------------------------------------------- |
+| `debounceMs`        | `number`              | `0`                             | Debounce delay in milliseconds for viewport change events |
+| `breakpoints`       | `ViewportBreakpoints` | `{ mobile: 768, tablet: 1024 }` | Custom breakpoint thresholds (in pixels)                  |
+| `keyboardThreshold` | `number`              | `100`                           | Minimum height difference to detect keyboard (in pixels)  |
+
+## Examples
+
+### Basic Usage with Keyboard Detection
+
+Perfect for mobile forms where you need to adjust layout when the keyboard appears:
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function MobileForm() {
+  const { width, height, isKeyboardVisible } = useViewport();
+
+  return (
+    <div style={{ width: `${width}px`, height: `${height}px` }}>
+      <input type="tel" placeholder="Enter phone number" />
+      <p>Keyboard visible: {isKeyboardVisible.toString()}</p>
+    </div>
+  );
+}
+```
+
+### With Tailwind CSS
+
+A modern example using Tailwind CSS for responsive design:
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function ResponsiveDashboard() {
+  const { width, height, isMobile, isTablet, breakpoint, orientation } =
+    useViewport();
+
+  return (
+    <div className="p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="bg-white p-4 rounded">
+          <p className="text-2xl font-bold">
+            {width} × {height}
+          </p>
+        </div>
+        <div className="bg-white p-4 rounded">
+          <p className="text-2xl font-bold capitalize">{breakpoint}</p>
+        </div>
+        <div className="bg-white p-4 rounded">
+          <p className="text-2xl font-bold capitalize">{orientation}</p>
+        </div>
+      </div>
+      <div
+        className={`grid gap-4 mt-4 ${
+          isMobile ? "grid-cols-1" : isTablet ? "grid-cols-2" : "grid-cols-3"
+        }`}
+      >
+        {/* Your content here */}
+      </div>
+    </div>
+  );
+}
+```
+
+### Custom Breakpoints
+
+Define your own breakpoint thresholds:
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function App() {
+  const viewport = useViewport({
+    breakpoints: {
+      small: 480,
+      medium: 768,
+      large: 1024,
+      xlarge: 1440,
+    },
+  });
+
+  return (
+    <div>
+      <p>Current breakpoint: {viewport.breakpoint}</p>
+      {/* breakpoint will be "small", "medium", "large", "xlarge", or "desktop" */}
+    </div>
+  );
+}
+```
+
+### With Debouncing
+
+Optimize performance by debouncing viewport updates:
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function App() {
+  // Debounce viewport updates by 150ms
+  const viewport = useViewport({
+    debounceMs: 150,
+  });
+
+  return (
+    <div>
+      <p>Width: {viewport.width}px</p>
+      <p>Height: {viewport.height}px</p>
+    </div>
+  );
+}
+```
+
+### Conditional Rendering Based on Breakpoint
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function App() {
+  const { isMobile, isTablet, isDesktop } = useViewport();
+
+  return (
+    <div>
+      {isMobile && <MobileNavigation />}
+      {isTablet && <TabletNavigation />}
+      {isDesktop && <DesktopNavigation />}
+    </div>
+  );
+}
+```
+
+### Keyboard-Aware Layout
+
+Adjust your layout when the keyboard appears on mobile:
+
+```tsx
+import { useViewport } from "react-use-viewport";
+
+function MobileForm() {
+  const { isKeyboardVisible, keyboardHeight } = useViewport();
+
+  return (
+    <div
+      className="form-container"
+      style={{
+        paddingBottom: isKeyboardVisible ? `${keyboardHeight}px` : "0",
+        transition: "padding-bottom 0.3s ease",
+      }}
+    >
+      <input type="text" placeholder="Enter text..." />
+      <button>Submit</button>
+    </div>
+  );
+}
+```
+
+## TypeScript
+
+Full TypeScript support is included. Import types as needed:
+
+```tsx
+import {
+  useViewport,
+  type ViewportInfo,
+  type UseViewportOptions,
+  type ViewportBreakpoints,
+} from "react-use-viewport";
+
+function App() {
+  const viewport: ViewportInfo = useViewport();
+  // ...
+}
+```
+
+## Browser Support
+
+This hook uses the [Visual Viewport API](https://developer.mozilla.org/en-US/docs/Web/API/Visual_Viewport_API) for accurate keyboard detection on mobile devices. It gracefully falls back to `window.innerWidth` and `window.innerHeight` for browsers that don't support the Visual Viewport API.
+
+- ✅ Chrome/Edge (all versions)
+- ✅ Firefox (all versions)
+- ✅ Safari (iOS 13+, macOS 13+)
+- ✅ Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Performance
+
+The hook is optimized for performance:
+
+- Uses `useCallback` to memoize viewport calculations
+- Supports debouncing to reduce update frequency
+- Efficiently handles event listeners with proper cleanup
+- Minimal re-renders with React's built-in optimizations
+
+## License
+
+ISC
+
+---
