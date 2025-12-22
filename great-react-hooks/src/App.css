@@ -1,0 +1,85 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, #f0f0f0, #ffffff);
+  padding: 0;
+  margin: 0;
+}
+
+.input-section {
+  width: 100%;
+  padding: 12px;
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+.keyboard-visible-text {
+  font-size: 14px;
+  color: #333;
+  margin-top: 8px;
+  text-align: center;
+}
+.phone-input {
+  width: 100%;
+  padding: 16px 20px;
+  font-size: 14px;
+  border: 2px solid rgb(199, 199, 199);
+  border-radius: 12px;
+  outline: none;
+  background: white;
+  color: black;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.phone-input:focus {
+  border-color: black;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.phone-input::placeholder {
+  color: #999;
+}
+
+.button-section {
+  width: 100%;
+  margin-top: auto;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.verify-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+  background: black;
+  border: 2px solid black;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.verify-button:hover:not(:disabled) {
+  background: #333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.verify-button:active:not(:disabled) {
+  background: #1a1a1a;
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.verify-button:disabled {
+  background: #ccc;
+  border-color: #ccc;
+  color: #999;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
