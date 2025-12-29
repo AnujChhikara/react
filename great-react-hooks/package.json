@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "great-react-screenshot": "^0.0.1",
-    "html-to-image": "^1.11.13",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-flow-diagram": "file:../react-flow-diagram",
+    "react-animated-flow-diagram": "^0.1.0",
     "react-use-viewport": "^0.0.1"
   },
   "devDependencies": {

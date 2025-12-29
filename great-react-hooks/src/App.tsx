@@ -1,4 +1,4 @@
-import { FlowDiagram } from "react-flow-diagram";
+import { FlowDiagram } from "react-animated-flow-diagram";
 const SHAPES = [
   {
     id: "client",
