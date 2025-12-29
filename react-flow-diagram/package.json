@@ -1,0 +1,55 @@
+{
+  "name": "react-animated-flow-diagram",
+  "version": "0.0.1",
+  "description": "React component library for creating beautiful flow diagrams with animated connections - Create flowcharts, process diagrams, and system architecture diagrams with ease. Supports multiple shape types, animated connections, and customizable styling.",
+  "license": "ISC",
+  "author": "Anuj Chhikara",
+  "keywords": [
+    "react",
+    "react-component",
+    "flow-diagram",
+    "flowchart",
+    "diagram",
+    "flow-chart",
+    "process-diagram",
+    "architecture-diagram",
+    "react-flow",
+    "flow-diagram-react",
+    "animated-diagram",
+    "svg-diagram",
+    "visual-diagram",
+    "typescript",
+    "react-typescript",
+    "diagram-component",
+    "flow-visualization",
+    "system-diagram",
+    "connection-diagram"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@types/react": "^19.2.7",
+    "react": "^19.2.3",
+    "rollup": "^4.53.5",
+    "rollup-plugin-dts": "^6.3.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  }
+}
