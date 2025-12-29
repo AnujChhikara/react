@@ -1,39 +1,68 @@
-import { useFlow } from "./hooks/use-flow";
+import { FlowProvider, Shape, Connectors } from "./hooks/use-flow";
 
 function App() {
-  const squareStyle = useFlow("square", {
-    backgroundColor: "blue",
-    size: 100,
-  });
-  const rectangleStyle = useFlow("rectangle", {
-    backgroundColor: "green",
-    width: 150,
-    height: 100,
-  });
-  const circleStyle = useFlow("circle", {
-    backgroundColor: "red",
-    size: 100,
-  });
-  const cylinderStyle = useFlow("cylinder", {
-    backgroundColor: "purple",
-    size: 120,
-  });
-
   return (
-    <div
-      style={{
-        display: "flex",
-        gap: "50px",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
+    <FlowProvider
+      connections={[
+        { from: "api", to: "server", color: "#3b82f6", strokeWidth: 2 },
+        { from: "server", to: "database", color: "#10b981", strokeWidth: 2 },
+        { from: "server", to: "cache", color: "#f59e0b", strokeWidth: 2 },
+        { from: "client", to: "api", color: "#ec4899", strokeWidth: 2 },
+      ]}
     >
-      <div style={squareStyle}></div>
-      <div style={rectangleStyle}></div>
-      <div style={circleStyle}></div>
-      <div style={cylinderStyle}></div>
-    </div>
+      <Connectors />
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "60px",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "60px",
+          minHeight: "100vh",
+        }}
+      >
+        <Shape
+          id="client"
+          type="roundedRectangle"
+          style={{ backgroundColor: "#ec4899", width: 120, height: 80 }}
+        >
+          <span style={{ color: "#fff", fontWeight: "bold" }}>Client</span>
+        </Shape>
+
+        <Shape
+          id="api"
+          type="diamond"
+          style={{ backgroundColor: "#3b82f6", width: 100, height: 100 }}
+        >
+          <span style={{ color: "#fff", fontWeight: "bold" }}>API</span>
+        </Shape>
+
+        <Shape
+          id="server"
+          type="rectangle"
+          style={{ backgroundColor: "#10b981", width: 120, height: 80 }}
+        >
+          <span style={{ color: "#fff", fontWeight: "bold" }}>Server</span>
+        </Shape>
+
+        <Shape
+          id="database"
+          type="cylinder"
+          style={{ backgroundColor: "#8b5cf6", width: 100, height: 120 }}
+        >
+          <span style={{ color: "#fff", fontWeight: "bold" }}>DB</span>
+        </Shape>
+
+        <Shape
+          id="cache"
+          type="hexagon"
+          style={{ backgroundColor: "#f59e0b", width: 100, height: 100 }}
+        >
+          <span style={{ color: "#fff", fontWeight: "bold" }}>Cache</span>
+        </Shape>
+      </div>
+    </FlowProvider>
   );
 }
 

@@ -1,84 +1,191 @@
-import { useMemo } from "react";
+import {
+  useContext,
+  useRef,
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+} from "react";
+import type { ShapeType, Connection } from "./flow-types";
+import { shapeStyles, FlowContext } from "./flow-types";
 
-export type ShapeType = "circle" | "square" | "rectangle" | "cylinder";
-
-export interface UseFlowOptions {
-  size?: number | string;
-  width?: number | string;
-  height?: number | string;
-  color?: string;
-  backgroundColor?: string;
+interface FlowProviderProps {
+  children: React.ReactNode;
+  connections?: Connection[];
 }
 
-export interface FlowStyles extends React.CSSProperties {
-  width: string | number;
-  height: string | number;
+export function FlowProvider({
+  children,
+  connections = [],
+}: FlowProviderProps) {
+  const positionsRef = useRef<
+    Map<string, { x: number; y: number; width: number; height: number }>
+  >(new Map());
+  const [positionsVersion, setPositionsVersion] = useState(0);
+  const [currentConnections, setConnections] =
+    useState<Connection[]>(connections);
+
+  useEffect(() => {
+    setConnections(connections);
+  }, [connections]);
+
+  const registerShape = useCallback(
+    (
+      id: string,
+      position: { x: number; y: number; width: number; height: number }
+    ) => {
+      positionsRef.current.set(id, position);
+      setPositionsVersion((v) => v + 1);
+    },
+    []
+  );
+
+  const unregisterShape = useCallback((id: string) => {
+    positionsRef.current.delete(id);
+    setPositionsVersion((v) => v + 1);
+  }, []);
+
+  const getPositions = useCallback(() => positionsRef.current, []);
+
+  const value = useMemo(
+    () => ({
+      registerShape,
+      unregisterShape,
+      getPositions,
+      positionsVersion,
+      connections: currentConnections,
+      setConnections,
+    }),
+    [
+      registerShape,
+      unregisterShape,
+      getPositions,
+      positionsVersion,
+      currentConnections,
+    ]
+  );
+
+  return (
+    <FlowContext.Provider value={value}>
+      <div style={{ position: "relative" }}>{children}</div>
+    </FlowContext.Provider>
+  );
 }
 
-export function useFlow(
-  shape: ShapeType = "circle",
-  options: UseFlowOptions = {}
-): FlowStyles {
-  const { size = 100, width, height, backgroundColor } = options;
+interface ShapeProps {
+  id: string;
+  type: ShapeType;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
 
-  const shapeStyles = useMemo(() => {
-    const baseSize = typeof size === "number" ? `${size}px` : size;
+export function Shape({ id, type, style, children }: ShapeProps) {
+  const context = useContext(FlowContext);
+  const ref = useRef<HTMLDivElement>(null);
+  const contextRef = useRef(context);
 
-    let finalWidth: string | number = baseSize;
-    let finalHeight: string | number = baseSize;
+  useEffect(() => {
+    contextRef.current = context;
+  }, [context]);
 
-    // For rectangle, use width and height if provided, otherwise use size for both
-    if (shape === "rectangle") {
-      finalWidth =
-        width !== undefined
-          ? typeof width === "number"
-            ? `${width}px`
-            : width
-          : baseSize;
-      finalHeight =
-        height !== undefined
-          ? typeof height === "number"
-            ? `${height}px`
-            : height
-          : baseSize;
-    }
+  useEffect(() => {
+    if (!ref.current) return;
 
-    const baseStyles: FlowStyles = {
-      width: finalWidth,
-      height: finalHeight,
+    const ctx = contextRef.current;
+    if (!ctx) return;
+
+    const updatePosition = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const parent = ref.current.offsetParent as HTMLElement;
+      const parentRect = parent?.getBoundingClientRect() || { left: 0, top: 0 };
+
+      ctx.registerShape(id, {
+        x: rect.left - parentRect.left + rect.width / 2,
+        y: rect.top - parentRect.top + rect.height / 2,
+        width: rect.width,
+        height: rect.height,
+      });
     };
 
-    if (backgroundColor) {
-      baseStyles.backgroundColor = backgroundColor;
-    }
+    updatePosition();
+    window.addEventListener("resize", updatePosition);
 
-    switch (shape) {
-      case "circle":
-        return {
-          ...baseStyles,
-          borderRadius: "50%",
-        };
+    return () => {
+      window.removeEventListener("resize", updatePosition);
+      ctx.unregisterShape(id);
+    };
+  }, [id]);
 
-      case "square":
-        return baseStyles;
+  const combinedStyle: React.CSSProperties = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    zIndex: 1,
+    ...shapeStyles[type],
+    ...style,
+  };
 
-      case "rectangle":
-        return baseStyles;
+  return (
+    <div ref={ref} style={combinedStyle}>
+      {children}
+    </div>
+  );
+}
 
-      case "cylinder":
-        // Cylinder shape for database representation
-        // Uses rounded top and bottom with a 3D effect
-        return {
-          ...baseStyles,
-          borderRadius: "50% / 10%",
-          position: "relative" as const,
-          boxShadow: "inset 0 0 0 2px rgba(0, 0, 0, 0.1)",
-        };
+export function Connectors() {
+  const context = useContext(FlowContext);
 
-      default:
-        return baseStyles;
-    }
-  }, [shape, size, width, height, backgroundColor]);
+  if (!context) return null;
 
-  return shapeStyles;
+  // positionsVersion in context triggers re-render when positions change
+
+  const positions = context.getPositions();
+  const lines = context.connections
+    .map((conn) => {
+      const from = positions.get(conn.from);
+      const to = positions.get(conn.to);
+      if (!from || !to) return null;
+
+      return {
+        key: `${conn.from}-${conn.to}`,
+        x1: from.x,
+        y1: from.y,
+        x2: to.x,
+        y2: to.y,
+        color: conn.color || "#000",
+        strokeWidth: conn.strokeWidth || 2,
+      };
+    })
+    .filter(Boolean);
+
+  return (
+    <svg
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    >
+      {lines.map(
+        (line) =>
+          line && (
+            <line
+              key={line.key}
+              x1={line.x1}
+              y1={line.y1}
+              x2={line.x2}
+              y2={line.y2}
+              stroke={line.color}
+              strokeWidth={line.strokeWidth}
+            />
+          )
+      )}
+    </svg>
+  );
 }
