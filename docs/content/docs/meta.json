@@ -1,3 +1,9 @@
 {
-  "pages": ["index", "..."]
+  "pages": [
+    "index",
+    "use-screenshot",
+    "use-viewport",
+    "flow-diagram",
+    "..."
+  ]
 }

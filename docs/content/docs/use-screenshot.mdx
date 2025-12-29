@@ -1,0 +1,212 @@
+---
+title: useScreenshot
+description: A simple and powerful React hook for taking screenshots of React components and DOM elements
+---
+
+A simple and powerful React hook for **taking screenshots** of React components and DOM elements. Perfect solution for **how to take screenshot in React**. Built on top of `html-to-image`, this hook provides a clean API for **capturing screenshots** of any React component or DOM element.
+
+## Installation
+
+```bash
+npm install great-react-screenshot
+# or
+pnpm add great-react-screenshot
+# or
+yarn add great-react-screenshot
+```
+
+## Quick Start
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function App() {
+  const { parentRef, takeScreenshot, image, isCapturing } = useScreenshot();
+
+  const handleCapture = async () => {
+    const dataUrl = await takeScreenshot();
+  };
+
+  return (
+    <div>
+      <div ref={parentRef} style={{ padding: "20px", background: "#f0f0f0" }}>
+        <h1>This will be captured!</h1>
+        <p>Click the button below to take a screenshot.</p>
+      </div>
+      <button onClick={handleCapture} disabled={isCapturing}>
+        {isCapturing ? "Capturing..." : "Take Screenshot"}
+      </button>
+      {image && <img src={image} alt="Screenshot" />}
+    </div>
+  );
+}
+```
+
+## API
+
+### `useScreenshot(options?)`
+
+Returns an object with the following properties:
+
+#### Return Value
+
+| Property         | Type                                              | Description                                      |
+| ---------------- | ------------------------------------------------- | ------------------------------------------------ |
+| `parentRef`      | `React.RefObject<T>`                              | Ref to attach to the element you want to capture |
+| `status`         | `"idle" \| "capturing" \| "completed" \| "error"` | Current status of the screenshot operation       |
+| `isCapturing`    | `boolean`                                         | Shorthand for `status === "capturing"`           |
+| `isCompleted`    | `boolean`                                         | Shorthand for `status === "completed"`           |
+| `error`          | `Error \| null`                                   | Error object if capture failed                   |
+| `image`          | `string \| null`                                  | Base64 data URL of the captured image            |
+| `takeScreenshot` | `() => Promise<string \| null>`                   | Function to trigger the screenshot               |
+| `reset`          | `() => void`                                      | Reset the hook state to initial values           |
+
+#### Options
+
+| Option            | Type              | Default     | Description                                        |
+| ----------------- | ----------------- | ----------- | -------------------------------------------------- |
+| `quality`         | `number`          | `1`         | Image quality (0-1), only applies to JPEG format   |
+| `format`          | `"png" \| "jpeg"` | `"png"`     | Output image format                                |
+| `backgroundColor` | `string`          | `undefined` | Background color for the image (e.g., `"#ffffff"`) |
+
+## Examples
+
+### Basic Usage
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function Card() {
+  const { parentRef, takeScreenshot, image } = useScreenshot();
+
+  return (
+    <div>
+      <div ref={parentRef} className="card">
+        <h2>My Card</h2>
+        <p>Card content here</p>
+      </div>
+      <button onClick={takeScreenshot}>Capture</button>
+      {image && <img src={image} alt="Captured" />}
+    </div>
+  );
+}
+```
+
+### With Custom Options
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function App() {
+  const { parentRef, takeScreenshot, image } = useScreenshot({
+    format: "jpeg",
+    quality: 0.8,
+    backgroundColor: "#ffffff",
+  });
+
+  return (
+    <div>
+      <div ref={parentRef}>
+        <h1>Content to capture</h1>
+      </div>
+      <button onClick={takeScreenshot}>Take JPEG Screenshot</button>
+      {image && <img src={image} alt="Screenshot" />}
+    </div>
+  );
+}
+```
+
+### Download Screenshot
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function DownloadableCard() {
+  const { parentRef, takeScreenshot, isCapturing } = useScreenshot();
+
+  const handleDownload = async () => {
+    const dataUrl = await takeScreenshot();
+    if (dataUrl) {
+      const link = document.createElement("a");
+      link.download = "screenshot.png";
+      link.href = dataUrl;
+      link.click();
+    }
+  };
+
+  return (
+    <div>
+      <div ref={parentRef} className="card">
+        <h2>Downloadable Card</h2>
+      </div>
+      <button onClick={handleDownload} disabled={isCapturing}>
+        {isCapturing ? "Capturing..." : "Download Screenshot"}
+      </button>
+    </div>
+  );
+}
+```
+
+### Error Handling
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function App() {
+  const { parentRef, takeScreenshot, error, status } = useScreenshot();
+
+  const handleCapture = async () => {
+    await takeScreenshot();
+  };
+
+  return (
+    <div>
+      <div ref={parentRef}>
+        <h1>Content</h1>
+      </div>
+      <button onClick={handleCapture}>Capture</button>
+      {error && <p style={{ color: "red" }}>Error: {error.message}</p>}
+      {status === "completed" && <p>✓ Screenshot captured!</p>}
+    </div>
+  );
+}
+```
+
+### Reset State
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function App() {
+  const { parentRef, takeScreenshot, image, reset } = useScreenshot();
+
+  return (
+    <div>
+      <div ref={parentRef}>
+        <h1>Content</h1>
+      </div>
+      <button onClick={takeScreenshot}>Capture</button>
+      <button onClick={reset}>Reset</button>
+      {image && <img src={image} alt="Screenshot" />}
+    </div>
+  );
+}
+```
+
+### TypeScript with Custom Element Type
+
+```tsx
+import useScreenshot from "great-react-screenshot";
+
+function App() {
+  const { parentRef, takeScreenshot } = useScreenshot<HTMLCanvasElement>();
+
+  return (
+    <div>
+      <canvas ref={parentRef} width={400} height={300} />
+      <button onClick={takeScreenshot}>Capture Canvas</button>
+    </div>
+  );
+}
+```
+
