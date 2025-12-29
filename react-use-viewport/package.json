@@ -1,6 +1,6 @@
 {
   "name": "react-use-viewport",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "React hook to track viewport dimensions and breakpoints - Easy way to track viewport size, orientation, keyboard visibility, and breakpoints in React apps with TypeScript support.",
   "license": "ISC",
   "author": "",

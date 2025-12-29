@@ -5,7 +5,7 @@ A powerful and lightweight React hook for tracking viewport dimensions, breakpoi
 ## Demo
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/ad9765b8-9b5f-42cf-9221-4309ed191670" alt="Demo" width="600" />
+  <img src="https://6w9lomxb2h.ufs.sh/f/djEQA86sFayQFDc9XXCuKsxn82kcabNHC1otUOG7ABzwy34j" alt="Demo" height="400" />
 </div>
 
 ## Features
