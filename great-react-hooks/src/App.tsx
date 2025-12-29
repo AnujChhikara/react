@@ -4,10 +4,42 @@ function App() {
   return (
     <FlowProvider
       connections={[
-        { from: "api", to: "server", color: "#3b82f6", strokeWidth: 2 },
-        { from: "server", to: "database", color: "#10b981", strokeWidth: 2 },
-        { from: "server", to: "cache", color: "#f59e0b", strokeWidth: 2 },
-        { from: "client", to: "api", color: "#ec4899", strokeWidth: 2 },
+        {
+          from: "client",
+          to: "api",
+          color: "#ffffff",
+          strokeWidth: 2,
+          lineStyle: "dashed",
+          animated: "flow",
+          flowDirection: "rtl",
+        },
+        {
+          from: "api",
+          to: "server",
+          color: "#ffffff",
+          strokeWidth: 2,
+          lineStyle: "dotted",
+          animated: "flow",
+          flowDirection: "rtl",
+        },
+        {
+          from: "server",
+          to: "database",
+          color: "#ffffff",
+          strokeWidth: 2,
+          lineStyle: "dotted",
+          animated: "flow",
+          flowDirection: "rtl",
+        },
+        {
+          from: "server",
+          to: "cache",
+          color: "#ffffff",
+          strokeWidth: 2,
+          lineStyle: "dotted",
+          animated: "flow",
+          flowDirection: "rtl",
+        },
       ]}
     >
       <Connectors />
@@ -15,7 +47,7 @@ function App() {
         style={{
           display: "flex",
           flexWrap: "wrap",
-          gap: "60px",
+          gap: "80px",
           justifyContent: "center",
           alignItems: "center",
           padding: "60px",

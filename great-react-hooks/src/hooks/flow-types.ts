@@ -48,11 +48,25 @@ interface ShapePosition {
   height: number;
 }
 
+export type LineStyle = "solid" | "dashed" | "dotted";
+
+export type AnimationType = "flow" | "pulse";
+export type FlowDirection =
+  | "ltr"
+  | "rtl"
+  | "ttb"
+  | "btt"
+  | "forward"
+  | "reverse";
+
 export interface Connection {
   from: string;
   to: string;
   color?: string;
   strokeWidth?: number;
+  lineStyle?: LineStyle | string;
+  animated?: boolean | AnimationType;
+  flowDirection?: FlowDirection;
 }
 
 export interface FlowContextType {
@@ -65,4 +79,3 @@ export interface FlowContextType {
 }
 
 export const FlowContext = createContext<FlowContextType | null>(null);
-
