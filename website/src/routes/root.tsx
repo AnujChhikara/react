@@ -5,17 +5,22 @@ export default function RootLayout() {
   const isHome = location.pathname === "/";
 
   return (
-    <div className="app">
-      <header className="header">
-        <div className="header-content">
-          <Link to="/" className="logo">
-            <span className="logo-icon">⚡</span>
-            <span className="logo-text">Great React Hooks</span>
+    <div className="min-h-screen flex flex-col bg-bg-default">
+      <header className="sticky top-0 z-50 bg-bg-default/80 backdrop-blur-sm border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-text-primary font-medium text-lg no-underline hover:text-text-primary transition-colors"
+          >
+            <span>⚡</span>
+            <span>Great React Hooks</span>
           </Link>
-          <nav className="nav">
+          <nav className="flex gap-6">
             <Link
               to="/"
-              className={`nav-link ${isHome ? "active" : ""}`}
+              className={`text-sm text-text-secondary no-underline hover:text-text-primary transition-colors ${
+                isHome ? "text-text-primary" : ""
+              }`}
             >
               Hooks
             </Link>
@@ -23,7 +28,7 @@ export default function RootLayout() {
               href="http://localhost:3000"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-link"
+              className="text-sm text-text-secondary no-underline hover:text-text-primary transition-colors"
             >
               Docs
             </a>
@@ -31,17 +36,17 @@ export default function RootLayout() {
               href="https://github.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="nav-link"
+              className="text-sm text-text-secondary no-underline hover:text-text-primary transition-colors"
             >
               GitHub
             </a>
           </nav>
         </div>
       </header>
-      <main className="main">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12">
         <Outlet />
       </main>
-      <footer className="footer">
+      <footer className="border-t border-border py-8 text-center text-text-muted text-sm">
         <p>Built with React • MIT License</p>
       </footer>
     </div>

@@ -6,30 +6,40 @@ export default function UseViewportPage() {
   const viewport = useViewport({ debounceMs: 100 });
 
   return (
-    <div className="hook-page">
-      <header className="hook-header">
-        <Link to="/" className="back-link">
+    <div className="max-w-4xl">
+      <header className="mb-8">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm text-text-secondary no-underline mb-4 hover:text-text-primary transition-colors"
+        >
           ← Back to Hooks
         </Link>
-        <h1 className="hook-title">useViewport</h1>
-        <p className="hook-package">react-use-viewport</p>
-        <p className="hook-description">
+        <h1 className="text-4xl font-semibold text-text-primary mb-2 font-mono">
+          useViewport
+        </h1>
+        <p className="text-base text-text-muted font-mono mb-4">
+          react-use-viewport
+        </p>
+        <p className="text-lg text-text-secondary leading-relaxed">
           A React hook for tracking viewport dimensions, breakpoints,
           orientation, and keyboard visibility in real-time with optional
           debounce support.
         </p>
       </header>
 
-      <section className="content-section">
-        <h2>Thought Process</h2>
-        <p>
+      <section className="my-10">
+        <h2 className="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+          <span className="w-1 h-6 bg-text-muted rounded-full"></span>
+          Thought Process
+        </h2>
+        <p className="text-text-secondary leading-relaxed mb-4">
           Building responsive React applications often requires knowing the
           exact viewport dimensions—not just CSS media queries, but actual
           JavaScript values for calculations, animations, or conditional
           rendering.
         </p>
-        <p>
-          <strong>useViewport</strong> provides a unified API for all
+        <p className="text-text-secondary leading-relaxed">
+          <strong className="text-text-primary">useViewport</strong> provides a unified API for all
           viewport-related information. It tracks dimensions, detects device
           type based on customizable breakpoints, monitors orientation changes,
           and even detects mobile keyboard visibility—something CSS alone can't
@@ -37,10 +47,13 @@ export default function UseViewportPage() {
         </p>
       </section>
 
-      <section className="content-section">
-        <h2>What It Does</h2>
-        <p>This hook provides real-time access to:</p>
-        <ul style={{ color: "var(--text-secondary)", marginLeft: "1.5rem" }}>
+      <section className="my-10">
+        <h2 className="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+          <span className="w-1 h-6 bg-text-muted rounded-full"></span>
+          What It Does
+        </h2>
+        <p className="text-text-secondary mb-4">This hook provides real-time access to:</p>
+        <ul className="text-text-secondary ml-6 space-y-2 list-disc">
           <li>Viewport width and height (using VisualViewport API)</li>
           <li>Current breakpoint (mobile, tablet, desktop)</li>
           <li>Device type detection (isMobile, isTablet, isDesktop)</li>
@@ -51,151 +64,229 @@ export default function UseViewportPage() {
         </ul>
       </section>
 
-      <section className="content-section">
-        <h2>API Reference</h2>
-        <table className="api-table">
-          <thead>
-            <tr>
-              <th>Property</th>
-              <th>Type</th>
-              <th>Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <code>width</code>
-              </td>
-              <td>
-                <code>number</code>
-              </td>
-              <td>Viewport width in pixels</td>
-            </tr>
-            <tr>
-              <td>
-                <code>height</code>
-              </td>
-              <td>
-                <code>number</code>
-              </td>
-              <td>Viewport height in pixels</td>
-            </tr>
-            <tr>
-              <td>
-                <code>breakpoint</code>
-              </td>
-              <td>
-                <code>string</code>
-              </td>
-              <td>Current breakpoint name</td>
-            </tr>
-            <tr>
-              <td>
-                <code>isMobile</code>
-              </td>
-              <td>
-                <code>boolean</code>
-              </td>
-              <td>True if viewport is mobile-sized</td>
-            </tr>
-            <tr>
-              <td>
-                <code>isTablet</code>
-              </td>
-              <td>
-                <code>boolean</code>
-              </td>
-              <td>True if viewport is tablet-sized</td>
-            </tr>
-            <tr>
-              <td>
-                <code>isDesktop</code>
-              </td>
-              <td>
-                <code>boolean</code>
-              </td>
-              <td>True if viewport is desktop-sized</td>
-            </tr>
-            <tr>
-              <td>
-                <code>orientation</code>
-              </td>
-              <td>
-                <code>portrait | landscape</code>
-              </td>
-              <td>Current screen orientation</td>
-            </tr>
-            <tr>
-              <td>
-                <code>isKeyboardVisible</code>
-              </td>
-              <td>
-                <code>boolean</code>
-              </td>
-              <td>True if mobile keyboard is open</td>
-            </tr>
-            <tr>
-              <td>
-                <code>keyboardHeight</code>
-              </td>
-              <td>
-                <code>number</code>
-              </td>
-              <td>Height of keyboard when visible</td>
-            </tr>
-            <tr>
-              <td>
-                <code>scale</code>
-              </td>
-              <td>
-                <code>number</code>
-              </td>
-              <td>Current zoom/scale level</td>
-            </tr>
-          </tbody>
-        </table>
+      <section className="my-10">
+        <h2 className="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+          <span className="w-1 h-6 bg-text-muted rounded-full"></span>
+          API Reference
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-sm">
+            <thead>
+              <tr>
+                <th className="text-left p-3 bg-bg-secondary text-text-primary font-semibold border-b border-border">
+                  Property
+                </th>
+                <th className="text-left p-3 bg-bg-secondary text-text-primary font-semibold border-b border-border">
+                  Type
+                </th>
+                <th className="text-left p-3 bg-bg-secondary text-text-primary font-semibold border-b border-border">
+                  Description
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    width
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    number
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  Viewport width in pixels
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    height
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    number
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  Viewport height in pixels
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    breakpoint
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    string
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  Current breakpoint name
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    isMobile
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    boolean
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  True if viewport is mobile-sized
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    isTablet
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    boolean
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  True if viewport is tablet-sized
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    isDesktop
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    boolean
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  True if viewport is desktop-sized
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    orientation
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    portrait | landscape
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  Current screen orientation
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    isKeyboardVisible
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    boolean
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  True if mobile keyboard is open
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    keyboardHeight
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    number
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  Height of keyboard when visible
+                </td>
+              </tr>
+              <tr>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    scale
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  <code className="bg-bg-tertiary px-2 py-1 rounded text-xs font-mono text-text-primary">
+                    number
+                  </code>
+                </td>
+                <td className="p-3 border-b border-border text-text-secondary">
+                  Current zoom/scale level
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </section>
 
-      <section className="content-section">
-        <h2>Live Demo</h2>
-        <div className="demo-container">
-          <div className="demo-title">Current Viewport State</div>
-          <p
-            style={{
-              color: "var(--text-secondary)",
-              marginBottom: "1rem",
-              fontSize: "0.9rem",
-            }}
-          >
+      <section className="my-10">
+        <h2 className="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+          <span className="w-1 h-6 bg-text-muted rounded-full"></span>
+          Live Demo
+        </h2>
+        <div className="bg-bg-secondary border border-border rounded-lg p-6 my-4">
+          <div className="text-xs uppercase tracking-wider text-text-secondary mb-4 font-semibold">
+            Current Viewport State
+          </div>
+          <p className="text-text-secondary mb-4 text-sm">
             Resize your browser window to see these values update in real-time:
           </p>
 
-          <div className="viewport-info">
-            <div className="viewport-stat">
-              <div className="viewport-stat-label">Width</div>
-              <div className="viewport-stat-value">{viewport.width}px</div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="bg-bg-tertiary p-4 rounded-md text-center">
+              <div className="text-xs text-text-muted mb-1">Width</div>
+              <div className="text-xl font-semibold text-text-primary font-mono">
+                {viewport.width}px
+              </div>
             </div>
-            <div className="viewport-stat">
-              <div className="viewport-stat-label">Height</div>
-              <div className="viewport-stat-value">{viewport.height}px</div>
+            <div className="bg-bg-tertiary p-4 rounded-md text-center">
+              <div className="text-xs text-text-muted mb-1">Height</div>
+              <div className="text-xl font-semibold text-text-primary font-mono">
+                {viewport.height}px
+              </div>
             </div>
-            <div className="viewport-stat">
-              <div className="viewport-stat-label">Breakpoint</div>
-              <div className="viewport-stat-value">{viewport.breakpoint}</div>
+            <div className="bg-bg-tertiary p-4 rounded-md text-center">
+              <div className="text-xs text-text-muted mb-1">Breakpoint</div>
+              <div className="text-xl font-semibold text-text-primary font-mono">
+                {viewport.breakpoint}
+              </div>
             </div>
-            <div className="viewport-stat">
-              <div className="viewport-stat-label">Orientation</div>
-              <div className="viewport-stat-value">{viewport.orientation}</div>
+            <div className="bg-bg-tertiary p-4 rounded-md text-center">
+              <div className="text-xs text-text-muted mb-1">Orientation</div>
+              <div className="text-xl font-semibold text-text-primary font-mono">
+                {viewport.orientation}
+              </div>
             </div>
-            <div className="viewport-stat">
-              <div className="viewport-stat-label">Scale</div>
-              <div className="viewport-stat-value">
+            <div className="bg-bg-tertiary p-4 rounded-md text-center">
+              <div className="text-xs text-text-muted mb-1">Scale</div>
+              <div className="text-xl font-semibold text-text-primary font-mono">
                 {viewport.scale.toFixed(2)}
               </div>
             </div>
-            <div className="viewport-stat">
-              <div className="viewport-stat-label">Device</div>
-              <div className="viewport-stat-value">
+            <div className="bg-bg-tertiary p-4 rounded-md text-center">
+              <div className="text-xs text-text-muted mb-1">Device</div>
+              <div className="text-xl font-semibold text-text-primary font-mono">
                 {viewport.isMobile
                   ? "📱 Mobile"
                   : viewport.isTablet
@@ -207,8 +298,11 @@ export default function UseViewportPage() {
         </div>
       </section>
 
-      <section className="content-section">
-        <h2>Usage Example</h2>
+      <section className="my-10">
+        <h2 className="text-2xl font-semibold text-text-primary mb-4 flex items-center gap-3">
+          <span className="w-1 h-6 bg-text-muted rounded-full"></span>
+          Usage Example
+        </h2>
         <CodeBlock
           title="ResponsiveComponent.tsx"
           code={`import { useViewport } from "react-use-viewport";

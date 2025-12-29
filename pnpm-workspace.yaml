@@ -1,5 +1,0 @@
-packages:
-  - 'hooks/*'
-  - 'website'
-  - 'docs'
-
