@@ -1,6 +1,6 @@
 {
   "name": "react-animated-flow-diagram",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "React component library for creating beautiful flow diagrams with animated connections - Create flowcharts, process diagrams, and system architecture diagrams with ease. Supports multiple shape types, animated connections, and customizable styling.",
   "license": "ISC",
   "author": "",
@@ -32,7 +32,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
+    "clean": "rm -rf dist",
+    "build": "npm run clean && rollup -c --bundleConfigAsCjs",
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {

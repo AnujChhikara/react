@@ -1,0 +1,21 @@
+# Source maps - not needed in production
+*.map
+**/*.map
+
+# Source files
+src/
+*.ts
+*.tsx
+!*.d.ts
+
+# Development files
+tsconfig*.json
+rollup.config.js
+.gitignore
+.npmignore
+
+# Build artifacts that shouldn't be published
+node_modules/
+*.log
+.DS_Store
+
