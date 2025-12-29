@@ -6,7 +6,14 @@ import {
   useState,
   useMemo,
 } from "react";
-import type { ShapeType, Connection } from "./flow-types";
+import type {
+  ShapeType,
+  Connection,
+  SimplifiedConnection,
+  FlowDiagramProps,
+  AnimationType,
+  FlowDirection,
+} from "./flow-types";
 import { shapeStyles, FlowContext } from "./flow-types";
 
 interface FlowProviderProps {
@@ -166,8 +173,14 @@ export function Connectors() {
       const isAnimated =
         conn.animated === true ||
         conn.animated === "flow" ||
-        conn.animated === "pulse";
-      const animationType = conn.animated === "pulse" ? "pulse" : "flow";
+        conn.animated === "pulse" ||
+        conn.animated === "light";
+      const animationType =
+        conn.animated === "pulse"
+          ? "pulse"
+          : conn.animated === "light"
+          ? "light"
+          : "flow";
 
       // For flow animation, ensure we have a dash pattern
       const finalDashArray =
@@ -213,6 +226,8 @@ export function Connectors() {
         }
       }
 
+      const pathId = `path-${conn.from}-${conn.to}`;
+
       return {
         key: `${conn.from}-${conn.to}`,
         x1: from.x,
@@ -226,9 +241,39 @@ export function Connectors() {
         animationType: isAnimated ? animationType : undefined,
         dashOffsetStart,
         dashOffsetEnd,
+        pathId,
       };
     })
     .filter(Boolean);
+
+  // Build combined path for single light animation through all connectors
+  const hasLightAnimation = lines.some(
+    (line) => line?.animated && line.animationType === "light"
+  );
+
+  let combinedPath: string | null = null;
+  if (hasLightAnimation && lines.length > 0) {
+    const validLines = lines.filter(
+      (line): line is NonNullable<typeof line> => line !== null
+    );
+    if (validLines.length > 0) {
+      // Start at the first connection's start point
+      const firstLine = validLines[0];
+      const pathParts = [`M ${firstLine.x1} ${firstLine.y1}`];
+
+      // Add each connection's end point
+      validLines.forEach((line) => {
+        pathParts.push(`L ${line.x2} ${line.y2}`);
+      });
+
+      combinedPath = pathParts.join(" ");
+    }
+  }
+
+  // Get color from first animated light connection, or default
+  const lightColor =
+    lines.find((line) => line?.animated && line.animationType === "light")
+      ?.color || "#ffffff";
 
   return (
     <svg
@@ -246,6 +291,15 @@ export function Connectors() {
         (line) =>
           line && (
             <g key={line.key}>
+              {/* Define path for light animation */}
+              {line.animated && line.animationType === "light" && (
+                <path
+                  id={line.pathId}
+                  d={`M ${line.x1} ${line.y1} L ${line.x2} ${line.y2}`}
+                  fill="none"
+                  stroke="none"
+                />
+              )}
               <line
                 x1={line.x1}
                 y1={line.y1}
@@ -280,6 +334,143 @@ export function Connectors() {
             </g>
           )
       )}
+      {/* Single light dot that travels through all connectors */}
+      {hasLightAnimation && combinedPath && (
+        <g>
+          {/* Glow effect */}
+          <circle r={6} fill={lightColor} opacity={0.3}>
+            <animateMotion
+              dur={`${lines.length * 1.5}s`}
+              repeatCount="indefinite"
+              path={combinedPath}
+            />
+          </circle>
+          {/* Main light dot */}
+          <circle r={4} fill={lightColor} opacity={1}>
+            <animateMotion
+              dur={`${lines.length * 1.5}s`}
+              repeatCount="indefinite"
+              path={combinedPath}
+            />
+          </circle>
+        </g>
+      )}
     </svg>
+  );
+}
+
+function parseConnection(
+  conn: SimplifiedConnection,
+  defaults: {
+    color?: string;
+    strokeWidth?: number;
+    lineStyle?: string;
+    animated?: boolean | AnimationType;
+    flowDirection?: FlowDirection;
+  }
+): Connection {
+  if (typeof conn === "string") {
+    const [from, to] = conn.split("->").map((s) => s.trim());
+    return {
+      from,
+      to,
+      color: defaults.color,
+      strokeWidth: defaults.strokeWidth,
+      lineStyle: defaults.lineStyle,
+      animated: defaults.animated,
+      flowDirection: defaults.flowDirection,
+    };
+  }
+  return {
+    ...conn,
+    color: conn.color ?? defaults.color,
+    strokeWidth: conn.strokeWidth ?? defaults.strokeWidth,
+    lineStyle: conn.lineStyle ?? defaults.lineStyle,
+    animated: conn.animated ?? defaults.animated,
+    flowDirection: conn.flowDirection ?? defaults.flowDirection,
+  };
+}
+
+export function FlowDiagram({
+  shapes,
+  connections,
+  defaultLineColor = "#000",
+  defaultStrokeWidth = 2,
+  defaultLineStyle,
+  defaultAnimated,
+  defaultFlowDirection,
+  containerStyle,
+  gap = 60,
+}: FlowDiagramProps) {
+  const parsedConnections = useMemo(
+    () =>
+      connections.map((conn) =>
+        parseConnection(conn, {
+          color: defaultLineColor,
+          strokeWidth: defaultStrokeWidth,
+          lineStyle: defaultLineStyle,
+          animated: defaultAnimated,
+          flowDirection: defaultFlowDirection,
+        })
+      ),
+    [
+      connections,
+      defaultLineColor,
+      defaultStrokeWidth,
+      defaultLineStyle,
+      defaultAnimated,
+      defaultFlowDirection,
+    ]
+  );
+
+  // Default container style
+  const defaultContainerStyle: React.CSSProperties = {
+    display: "flex",
+    flexWrap: "wrap",
+    gap: typeof gap === "number" ? `${gap}px` : gap,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: "60px",
+    minHeight: "100vh",
+    ...containerStyle,
+  };
+
+  return (
+    <FlowProvider connections={parsedConnections}>
+      <Connectors />
+      <div style={defaultContainerStyle}>
+        {shapes.map((shape) => {
+          const shapeStyle: React.CSSProperties = {
+            backgroundColor: shape.color,
+            width: shape.width ?? 120,
+            height: shape.height ?? 80,
+            ...shape.style,
+          };
+
+          return (
+            <Shape
+              key={shape.id}
+              id={shape.id}
+              type={shape.type}
+              style={shapeStyle}
+            >
+              {shape.label ? (
+                <span
+                  style={{
+                    color: "#fff",
+                    fontWeight: "bold",
+                    fontSize: "14px",
+                  }}
+                >
+                  {shape.label}
+                </span>
+              ) : (
+                shape.children
+              )}
+            </Shape>
+          );
+        })}
+      </div>
+    </FlowProvider>
   );
 }

@@ -50,7 +50,7 @@ interface ShapePosition {
 
 export type LineStyle = "solid" | "dashed" | "dotted";
 
-export type AnimationType = "flow" | "pulse";
+export type AnimationType = "flow" | "pulse" | "light";
 export type FlowDirection =
   | "ltr"
   | "rtl"
@@ -79,3 +79,29 @@ export interface FlowContextType {
 }
 
 export const FlowContext = createContext<FlowContextType | null>(null);
+
+// Simplified API types
+export interface SimplifiedShape {
+  id: string;
+  type: ShapeType;
+  label?: string;
+  color?: string;
+  width?: number | string;
+  height?: number | string;
+  style?: React.CSSProperties;
+  children?: React.ReactNode;
+}
+
+export type SimplifiedConnection = string | Connection;
+
+export interface FlowDiagramProps {
+  shapes: SimplifiedShape[];
+  connections: SimplifiedConnection[];
+  defaultLineColor?: string;
+  defaultStrokeWidth?: number;
+  defaultLineStyle?: LineStyle | string;
+  defaultAnimated?: boolean | AnimationType;
+  defaultFlowDirection?: FlowDirection;
+  containerStyle?: React.CSSProperties;
+  gap?: number | string;
+}

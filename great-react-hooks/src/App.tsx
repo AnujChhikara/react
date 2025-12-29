@@ -1,100 +1,73 @@
-import { FlowProvider, Shape, Connectors } from "./hooks/use-flow";
+import { FlowDiagram } from "./hooks/use-flow";
+const SHAPES = [
+  {
+    id: "client",
+    type: "roundedRectangle" as const,
+    label: "Client",
+    color: "#ec4899",
+    width: 120,
+    height: 80,
+  },
+  {
+    id: "api",
+    type: "diamond" as const,
+    label: "API",
+    color: "#3b82f6",
+    width: 100,
+    height: 100,
+  },
+  {
+    id: "server",
+    type: "rectangle" as const,
+    label: "Server",
+    color: "#10b981",
+    width: 120,
+    height: 80,
+  },
+  {
+    id: "database",
+    type: "cylinder" as const,
+    label: "DB",
+    color: "#8b5cf6",
+    width: 100,
+    height: 120,
+  },
+  {
+    id: "cache",
+    type: "hexagon" as const,
+    label: "Cache",
+    color: "#f59e0b",
+    width: 100,
+    height: 100,
+  },
+];
 
 function App() {
+  const connections = [
+    "client->api",
+    "api->server",
+    {
+      from: "server",
+      to: "database",
+      lineStyle: "dotted" as const,
+      animated: "flow" as const,
+    },
+    {
+      from: "server",
+      to: "cache",
+      lineStyle: "dotted" as const,
+      animated: "flow" as const,
+    },
+  ];
+
   return (
-    <FlowProvider
-      connections={[
-        {
-          from: "client",
-          to: "api",
-          color: "#ffffff",
-          strokeWidth: 2,
-          lineStyle: "dashed",
-          animated: "flow",
-          flowDirection: "rtl",
-        },
-        {
-          from: "api",
-          to: "server",
-          color: "#ffffff",
-          strokeWidth: 2,
-          lineStyle: "dotted",
-          animated: "flow",
-          flowDirection: "rtl",
-        },
-        {
-          from: "server",
-          to: "database",
-          color: "#ffffff",
-          strokeWidth: 2,
-          lineStyle: "dotted",
-          animated: "flow",
-          flowDirection: "rtl",
-        },
-        {
-          from: "server",
-          to: "cache",
-          color: "#ffffff",
-          strokeWidth: 2,
-          lineStyle: "dotted",
-          animated: "flow",
-          flowDirection: "rtl",
-        },
-      ]}
-    >
-      <Connectors />
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "80px",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "60px",
-          minHeight: "100vh",
-        }}
-      >
-        <Shape
-          id="client"
-          type="roundedRectangle"
-          style={{ backgroundColor: "#ec4899", width: 120, height: 80 }}
-        >
-          <span style={{ color: "#fff", fontWeight: "bold" }}>Client</span>
-        </Shape>
-
-        <Shape
-          id="api"
-          type="diamond"
-          style={{ backgroundColor: "#3b82f6", width: 100, height: 100 }}
-        >
-          <span style={{ color: "#fff", fontWeight: "bold" }}>API</span>
-        </Shape>
-
-        <Shape
-          id="server"
-          type="rectangle"
-          style={{ backgroundColor: "#10b981", width: 120, height: 80 }}
-        >
-          <span style={{ color: "#fff", fontWeight: "bold" }}>Server</span>
-        </Shape>
-
-        <Shape
-          id="database"
-          type="cylinder"
-          style={{ backgroundColor: "#8b5cf6", width: 100, height: 120 }}
-        >
-          <span style={{ color: "#fff", fontWeight: "bold" }}>DB</span>
-        </Shape>
-
-        <Shape
-          id="cache"
-          type="hexagon"
-          style={{ backgroundColor: "#f59e0b", width: 100, height: 100 }}
-        >
-          <span style={{ color: "#fff", fontWeight: "bold" }}>Cache</span>
-        </Shape>
-      </div>
-    </FlowProvider>
+    <FlowDiagram
+      shapes={SHAPES}
+      connections={connections}
+      defaultLineColor="#ffffff"
+      defaultAnimated="light"
+      gap={80}
+    />
   );
 }
 
