@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "great-react-screenshot": "workspace:*",
+    "great-react-screenshot": "^0.0.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "react-animated-flow-diagram": "workspace:*",
-    "react-use-viewport": "workspace:*"
+    "react-animated-flow-diagram": "^0.1.2",
+    "react-router": "^7.1.1",
+    "react-use-viewport": "^0.0.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
