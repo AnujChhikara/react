@@ -12,12 +12,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Link } from "@tanstack/react-router";
 
 export function HomeModule() {
   return (
@@ -30,9 +25,12 @@ export function HomeModule() {
               GREAT REACT HOOKS
             </span>
             <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-foreground transition-colors">
+              <Link
+                to="/hooks"
+                className="hover:text-foreground transition-colors"
+              >
                 Hooks
-              </a>
+              </Link>
               <a href="#" className="hover:text-foreground transition-colors">
                 Docs
               </a>
@@ -182,56 +180,6 @@ export function HomeModule() {
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-
-        {/* SECTION 2: Hooks Overview */}
-        <section className="py-24 bg-muted/30">
-          <div className="max-w-7xl mx-auto px-6 text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight mb-4">
-              Explore the Hooks
-            </h2>
-            <p className="text-muted-foreground">
-              Each hook is focused, documented, and designed to solve one
-              problem.
-            </p>
-          </div>
-
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                name: "useViewport",
-                desc: "Track window dimensions, breakpoints, orientation, and keyboard visibility with zero lag.",
-                tag: "UI",
-              },
-              {
-                name: "useScreenshot",
-                desc: "Take screenshots of React components and DOM elements with full TypeScript support.",
-                tag: "Media",
-              },
-              {
-                name: "FlowDiagram",
-                desc: "Create beautiful flow diagrams with animated connections. Perfect for flowcharts and process diagrams.",
-                tag: "Component",
-              },
-            ].map((hook) => (
-              <Card
-                key={hook.name}
-                className="group hover:border-primary/50 transition-all cursor-pointer"
-              >
-                <CardHeader>
-                  <div className="flex justify-between items-start">
-                    <CardTitle className=" text-base">{hook.name}</CardTitle>
-                    <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground border px-2 py-0.5 rounded">
-                      {hook.tag}
-                    </div>
-                  </div>
-                  <CardDescription className="pt-2">
-                    {hook.desc}
-                  </CardDescription>
-                </CardHeader>
-              </Card>
-            ))}
           </div>
         </section>
 
