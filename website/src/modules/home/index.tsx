@@ -1,6 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { HeroVisualization } from "@/components/hero-visualization";
-import { ArrowRight, Github, Library, ShieldCheck, Zap } from "lucide-react";
+import {
+  ArrowRight,
+  Github,
+  Library,
+  ShieldCheck,
+  Zap,
+  Linkedin,
+  Twitter,
+  Mail,
+  ExternalLink,
+} from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import {
   Card,
@@ -37,8 +47,11 @@ export function HomeModule() {
           <div className="flex items-center gap-4">
             <ThemeToggle />
             <a
-              href="#"
+              href="https://github.com/AnujChhikara/react"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground transition-colors"
+              aria-label="GitHub Repository"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -60,19 +73,13 @@ export function HomeModule() {
                 Production-Ready Hooks
               </div>
 
-              <h1
-                className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6"
-                style={{
-                  fontFamily:
-                    '"Geist", "Geist Fallback", system-ui, sans-serif',
-                }}
-              >
+              <h1 className="text-5xl md:text-7xl font-bold mb-6 font-mono italic">
                 Build Faster with <br />
                 <span className="animate-shimmer">Production-Ready</span> <br />
                 React Hooks
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground max-w-[540px] leading-relaxed mb-10">
+              <p className="text-base text-muted-foreground max-w-[540px] leading-relaxed mb-10">
                 A curated collection of React hooks and utilities I built to
                 solve real problems in production — shared openly so you don’t
                 have to reinvent them.
@@ -194,33 +201,18 @@ export function HomeModule() {
             {[
               {
                 name: "useViewport",
-                desc: "Track window dimensions and breakpoints with zero lag.",
+                desc: "Track window dimensions, breakpoints, orientation, and keyboard visibility with zero lag.",
                 tag: "UI",
               },
               {
-                name: "useDebounce",
-                desc: "Delay execution of a function until after a set wait time.",
-                tag: "Performance",
+                name: "useScreenshot",
+                desc: "Take screenshots of React components and DOM elements with full TypeScript support.",
+                tag: "Media",
               },
               {
-                name: "useLocalStorage",
-                desc: "Sync state with localStorage with full type safety.",
-                tag: "State",
-              },
-              {
-                name: "useIntersection",
-                desc: "Observer API wrapper for easy scroll animations.",
-                tag: "Browser",
-              },
-              {
-                name: "useEventListener",
-                desc: "Automatic cleanup for any DOM or window events.",
-                tag: "Events",
-              },
-              {
-                name: "usePrevious",
-                desc: "Keep track of the previous value of a prop or state.",
-                tag: "Utilities",
+                name: "FlowDiagram",
+                desc: "Create beautiful flow diagrams with animated connections. Perfect for flowcharts and process diagrams.",
+                tag: "Component",
               },
             ].map((hook) => (
               <Card
@@ -229,9 +221,7 @@ export function HomeModule() {
               >
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <CardTitle className="font-mono text-base">
-                      {hook.name}
-                    </CardTitle>
+                    <CardTitle className=" text-base">{hook.name}</CardTitle>
                     <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground border px-2 py-0.5 rounded">
                       {hook.tag}
                     </div>
@@ -272,7 +262,7 @@ export function HomeModule() {
                   },
                 ].map((step, i) => (
                   <div key={step.title} className="flex gap-6">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-xs font-bold">
+                    <div className="shrink-0 w-8 h-8 rounded-full bg-muted border border-border flex items-center justify-center text-xs font-bold">
                       {i + 1}
                     </div>
                     <div>
@@ -301,6 +291,81 @@ export function HomeModule() {
             <Button size="lg" className="rounded-full px-10">
               Browse All Hooks
             </Button>
+          </div>
+        </section>
+
+        {/* Creator Section */}
+        <section className="py-24 border-t border-border/50">
+          <div className="max-w-4xl mx-auto px-6">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold tracking-tight mb-4">
+                About Me
+              </h2>
+              <p className="text-lg text-muted-foreground mb-6">
+                Hi, I'm{" "}
+                <span className="font-semibold text-foreground">
+                  Anuj Chhikara
+                </span>
+                , a software engineer passionate about building end-to-end
+                products that solve real-world problems.
+              </p>
+              <p className="text-base text-muted-foreground mb-8 max-w-2xl mx-auto">
+                I created these hooks to solve problems I encountered in
+                production. They're battle-tested, well-documented, and ready to
+                use in your projects.
+              </p>
+              <div className="flex items-center justify-center gap-2 mb-8">
+                <a
+                  href="https://anujchhikara.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-medium text-primary hover:underline inline-flex items-center gap-1"
+                >
+                  Visit my website
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+              <div className="flex items-center justify-center gap-6 flex-wrap">
+                <a
+                  href="https://github.com/anujchhikara"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm">GitHub</span>
+                </a>
+                <a
+                  href="https://linkedin.com/in/anujchhikara20"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm">LinkedIn</span>
+                </a>
+                <a
+                  href="https://twitter.com/anujchhikara07"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm">Twitter</span>
+                </a>
+                <a
+                  href="mailto:anuj@anujchhikara.com"
+                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm">Email</span>
+                </a>
+              </div>
+            </div>
           </div>
         </section>
       </main>

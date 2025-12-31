@@ -1,6 +1,7 @@
 {
   "name": "my-v0-project",
   "version": "0.1.0",
+  "description": "Website for Great React Hooks - A curated collection of production-ready React hooks and utilities",
   "private": true,
   "type": "module",
   "scripts": {
